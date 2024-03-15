@@ -1,6 +1,7 @@
 export interface QueryItems {
   corrected_query: string
-  results: QueryResults
+  elapse: number
+  results: QueryResults[]
 }
 export interface QueryResults {
   AggregatedRatings: number
