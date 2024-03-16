@@ -25,7 +25,7 @@
 import QueryService from '../services/QueryService'
 import type { QueryResults } from '@/type'
 import RecipeSearchCard from '../components/RecipeSearchCard.vue'
-import { ref, computed, type Ref } from 'vue'
+import { ref, type Ref } from 'vue'
 import type { AxiosResponse } from 'axios'
 import { useRecipeStore } from '@/stores/recipe'
 

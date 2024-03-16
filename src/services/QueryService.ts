@@ -1,5 +1,5 @@
 import type { AxiosResponse } from 'axios'
-import type { QueryItems, QueryResults } from '@/type'
+import type { QueryItems } from '@/type'
 import apiClient from './AxiosClient'
 
 export default {
