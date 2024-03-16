@@ -17,3 +17,10 @@ export interface QueryResults {
   ReviewCount: number
   score: number
 }
+
+export interface User {
+  id: number
+  username: string
+  password: string
+  email: string
+}

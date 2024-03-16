@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import LoginView from '../views/LoginView.vue'
 import RecipeListView from '@/views/RecipeListView.vue'
 import RecipeDetail from '@/views/RecipeDetail.vue'
 import { useRecipeStore } from '@/stores/recipe'
-import QueryService from '@/services/QueryService'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -24,6 +24,11 @@ const router = createRouter({
       path: '/recipe-search',
       name: 'recipe',
       component: RecipeListView
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView
     },
     {
       path: '/recipe/:id',
