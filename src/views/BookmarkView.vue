@@ -6,37 +6,71 @@ import { useAuthStore } from '@/stores/auth'
 import { ref, type Ref } from 'vue'
 import { string } from 'yup'
 import router from '@/router'
+import { onBeforeRouteUpdate } from 'vue-router'
 const bookmarks: Ref<Array<BookmarkFolder>> = ref([])
 const authStore = useAuthStore()
 const props = defineProps({
   id: string
 })
-FolderService.getBookmark(Number(props.id))
-  .then((response) => {
-    bookmarks.value = response.data
-  })
-  .catch((err) => {
-    console.log(err)
-  })
-function onDelete() {
-  FolderService.deleteFolder(Number(props.id))
-    .then(() => {
-      console.log('Success')
+
+// Function to fetch bookmarks
+const fetchBookmarks = () => {
+  FolderService.getBookmark(Number(props.id))
+    .then((response) => {
+      bookmarks.value = response.data
     })
     .catch((err) => {
       console.log(err)
     })
-  router.push({ name: 'home' })
 }
+
+// Initial fetch of bookmarks
+fetchBookmarks()
+
+// Function to delete folder
+function onDelete() {
+  FolderService.deleteFolder(Number(props.id))
+    .then(() => {
+      console.log('Success')
+      // After successful deletion, fetch bookmarks again to update the list
+      fetchBookmarks()
+      router.push({ name: 'home' })
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+}
+
+// Function to delete bookmark
+function onDeleteBookmark(bookmarkId: number) {
+  FolderService.deleteBookmark(bookmarkId)
+    .then(() => {
+      console.log('Bookmark deleted successfully')
+      // After successful deletion, fetch bookmarks again to update the list
+      fetchBookmarks()
+      router.push({ name: 'bookmark', params: { id: Number(props.id) } })
+    })
+    .catch((err) => {
+      console.error('Failed to delete bookmark:', err)
+    })
+}
+
+// Hook to fetch bookmarks before route update
+onBeforeRouteUpdate((to, from, next) => {
+  fetchBookmarks()
+  next()
+})
 </script>
 <template>
   <button class="button mb-10" @click="onDelete">Delete This Folder</button>
   <div class="flex flex-col items-center">
-    <BookMarkCard
-      v-for="bookmark in bookmarks"
-      :key="bookmark.id"
-      :bookmark="bookmark"
-    ></BookMarkCard>
+    <BookMarkCard v-for="bookmark in bookmarks" :key="bookmark.id" :bookmark="bookmark">
+      <template #deleteButton>
+        <button @click="onDeleteBookmark(bookmark.id)" class="text-red-500 hover:text-red-800">
+          Delete From Bookmark
+        </button>
+      </template>
+    </BookMarkCard>
   </div>
 </template>
 

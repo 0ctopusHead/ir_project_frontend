@@ -35,6 +35,7 @@ export interface Folder {
 export interface Bookmark {
   id: number
   folder_id: number
+  user_id: number
   recipe: RecipeBookmark
   user_review: number
 }
@@ -53,6 +54,7 @@ export interface RecipeBookmark {
 
 export interface BookmarkFolder {
   author_id: number
+  user_id: number
   author_name: string
   image: string
   name: string
@@ -64,4 +66,19 @@ export interface BookmarkFolder {
   id: number
   folder_id: number
   user_review: number
+}
+export interface RecommendItem {
+  AggregatedRating: number
+  AuthorId: number
+  AuthorName: string
+  Description: string
+  Images: string
+  Name: string
+  RecipeCategory: string
+  RecipeIngredientParts: string
+  RecipeInstructions: string
+  review_count: number
+  rating_mean: number
+  RecipeId: number
+  user_id: number
 }

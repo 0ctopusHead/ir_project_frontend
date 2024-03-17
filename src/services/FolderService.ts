@@ -3,6 +3,7 @@ import type { Folder } from '@/type'
 import type { RecipeBookmark } from '@/type'
 import type { BookmarkFolder } from '@/type'
 import type { Bookmark } from '@/type'
+import type { RecommendItem } from '@/type'
 import apiClient from './AxiosClient'
 
 export default {
@@ -20,5 +21,11 @@ export default {
   },
   deleteFolder(folder_id: number): Promise<AxiosResponse<Folder>> {
     return apiClient.post<Folder>('/delete_folder/' + folder_id)
+  },
+  deleteBookmark(bookmark_id: number): Promise<AxiosResponse<BookmarkFolder>> {
+    return apiClient.post<BookmarkFolder>('/delete_bookmark/' + bookmark_id)
+  },
+  getRecommend(user_id: number): Promise<AxiosResponse<RecommendItem[]>> {
+    return apiClient.get<RecommendItem[]>('/recommend/' + user_id)
   }
 }

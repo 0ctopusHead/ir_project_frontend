@@ -61,7 +61,8 @@ const bookmark = ref<Bookmark>({
     recipe_instruction: recipe?.RecipeInstructions as string,
     review_count: recipe?.ReviewCount as number
   },
-  user_review: 0
+  user_review: 0,
+  user_id: authStore.user?.id as number
 })
 FolderService.getFolder(authStore.user?.id as number).then((response) => {
   folders.value = response.data
