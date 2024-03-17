@@ -2,7 +2,14 @@
 import { ref } from 'vue'
 import { useAuthStore } from '@/stores/auth'
 import FolderService from '@/services/FolderService'
+import { onBeforeRouteUpdate } from 'vue-router'
+import type { Folder } from '@/type'
+import type { AxiosResponse } from 'axios'
+import router from '@/router'
+import FolderCard from './FolderCard.vue'
+
 const authStore = useAuthStore()
+const folders = ref<Array<Folder>>([])
 const showPopup = ref(false)
 const userInput = ref('')
 
@@ -13,6 +20,14 @@ const closePopup = () => {
 const submitInput = () => {
   console.log('User input:', userInput.value)
   FolderService.createFolder(authStore.user?.id as number, userInput.value)
+    .then(() => {
+      // Fetch folders again after successfully creating a new folder
+      fetchFolders()
+      router.push({ name: 'home' })
+    })
+    .catch((err) => {
+      console.error('Error creating folder:', err)
+    })
   userInput.value = ''
   closePopup()
 }
@@ -21,11 +36,28 @@ const cancelInput = () => {
   userInput.value = ''
   closePopup()
 }
+
+const fetchFolders = () => {
+  FolderService.getFolder(authStore.user?.id as number)
+    .then((response: AxiosResponse<Folder[]>) => {
+      folders.value = response.data
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+}
+
+fetchFolders()
+
+onBeforeRouteUpdate((to, from, next) => {
+  fetchFolders()
+  next()
+})
 </script>
 
 <template>
-  <div class="add-card border border-black w-48 h-56 ml-5 bg-gray-800" @click="showPopup = true">
-    <div class="mt-20 text-white text-5xl"><font-awesome-icon icon="plus" /></div>
+  <div @click="showPopup = true">
+    <div class="create-bookmark-card"><font-awesome-icon icon="plus" /></div>
   </div>
   <div v-if="showPopup" class="popup-container">
     <div class="overlay" @click="cancelInput"></div>
@@ -37,9 +69,12 @@ const cancelInput = () => {
       </div>
     </div>
   </div>
+  <div class="grid grid-cols-6 gap-2">
+    <FolderCard v-for="folder in folders" :key="folder.id" :folder="folder"></FolderCard>
+  </div>
 </template>
 
-<style>
+<style scoped>
 .add-card {
   cursor: pointer;
   margin-bottom: 18px;
@@ -93,5 +128,35 @@ button {
 
 .cancel-button:hover {
   background-color: darkred;
+}
+
+/* Create Bookmark Card */
+.create-bookmark-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 150px;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  margin: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.create-bookmark-card:hover {
+  transform: translateY(-5px);
+  border-color: #888;
+}
+
+.plus-icon {
+  font-size: 3rem;
+  color: #888;
+}
+
+.card-label {
+  font-size: 1rem;
+  color: #888;
+  margin-top: 5px;
 }
 </style>

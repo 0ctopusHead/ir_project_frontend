@@ -3,6 +3,7 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
 import App from './App.vue'
+import 'nprogress/nprogress.css'
 import router from './router'
 import '@/services/AxiosInterceptorSetup'
 import { library } from '@fortawesome/fontawesome-svg-core'

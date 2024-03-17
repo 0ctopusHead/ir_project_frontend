@@ -4,6 +4,8 @@ import LoginView from '../views/LoginView.vue'
 import RecipeListView from '@/views/RecipeListView.vue'
 import RecipeDetail from '@/views/RecipeDetail.vue'
 import { useRecipeStore } from '@/stores/recipe'
+import BookMarkView from '../views/BookmarkView.vue'
+import NProgress from 'nprogress'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -41,8 +43,20 @@ const router = createRouter({
         recipeStore.getRecipeById(id)
         console.log(recipeStore)
       }
+    },
+    {
+      path: '/folder/:id',
+      name: 'bookmark',
+      component: BookMarkView,
+      props: true
     }
   ]
+})
+router.beforeEach(() => {
+  NProgress.start()
+})
+router.afterEach(() => {
+  NProgress.done()
 })
 
 export default router
