@@ -18,7 +18,7 @@ function logout() {
 </script>
 
 <template>
-  <header class="">
+  <header class="w-full bg-red-400">
     <nav class="flex flex-box items-center">
       <ul v-if="authStore.currentUserName" class="flex navbar-nav ml-auto">
         <li class="nav-item px-2"><router-link to="/" class="mr-5">Home</router-link></li>

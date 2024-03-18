@@ -1,5 +1,5 @@
 <template>
-  <main class="flex flex-col items-center top-0">
+  <main class="mt-5 flex flex-col items-center top-0">
     <div class="flex">
       <input type="text" v-model="query" class="block w-96 p-2 text-base border border-black" />
       <button @click="updateKeyword" class="ml-5 hover:text-green-500">Search</button>

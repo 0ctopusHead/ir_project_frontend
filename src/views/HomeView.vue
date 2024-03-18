@@ -47,13 +47,16 @@ FolderService.getRecommend(authStore.user?.id as number)
   })
 </script>
 <template>
+  <div class="w-full bg-red-300 font-sans text-3xl">
+    <h1>Folders</h1>
+  </div>
   <div class="ml-20">
     <CreateBookmarkCard></CreateBookmarkCard>
   </div>
-  <div class="w-full bg-red-400">
+  <div class="w-full bg-red-300 font-sans text-3xl">
     <h1>Recommendations</h1>
   </div>
-  <div class="grid grid-cols-6 gap-2">
+  <div class="ml-20 grid grid-cols-6 gap-2">
     <RecommendCard
       v-for="recommend in recommends"
       :key="recommend.RecipeId"
